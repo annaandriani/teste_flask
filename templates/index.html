@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+</head>
+<body>
+        <h1>Formulário</h1>
+        <form action="/" method="POST">
+            <label form="userid">Id </label>
+            <input type='text' name="userid" id="userid">
+
+            <label form="title">Id Usuário </label>
+            <input type='text' name="title" id="title">
+
+            <label form="message">Mensagem </label>
+            <input type='text' name="message" id="message">
+
+            <input type='submit' name="body" value="enviar">
+        </form>
+        <h1>Registros</h1>
+        <table id="registros">
+            <tr>
+                <td><b>Id</b></td>
+                <td><b>User Id</b></td>
+                <td><b>Mensagem</b></td>
+            </tr>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row.userid }}</td>
+                <td>{{ row.title }}</td>
+                <td>{{ row.message }}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="/clean">Apagar registro</a>
+
+
+        <script>
+                    function show_row(objs){
+                        rows = []
+
+                        for (obj of objs){
+                        id = obj["id"]
+                        userid = obj["userid"]
+                        title = obj["title"]
+
+
+                        obj_str = `
+                        <tr>
+                            <td> ${id} </td>
+                            <td> ${userid} </td>
+                            <td> ${title} </td>
+                        </tr>
+                        `
+                        rows.push(obj_str)
+                       }
+                       all_str = rows.join(' ')
+
+                       table = document.getElementById("registros");
+                       table.innerHTML+= all_str
+                       }
+
+                       async function get_data(){
+                           response = await
+                           fetch('https://jsonplaceholder.typicode.com/posts')
+                           json_obj = await response.json()
+                           console.log(json_obj)
+                           show_row(json_obj)
+
+                        }
+                       get_data()
+        </script>
+    </body>
+</html>
